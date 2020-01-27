@@ -64,7 +64,7 @@ export default {
       return img_path;
     }
   },
-  created() {
+  mounted() {
     this.$axios({
       url: "/editproduct/" + this.$route.params.id,
       method: "get"

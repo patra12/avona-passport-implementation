@@ -2,12 +2,33 @@ const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const bodyParser = require('body-parser')
+const passportauth = require('./passport-config');
 
 const app = express()
-
+const session = require('express-session');
 //configuring or setting body parser to get and read data coming from frontend
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
+
+
+
+
+
+
+app.use(session({
+  secret: "this is secret",
+  resave: true,
+  saveUninitialized: false,
+}))
+
+
+app.use(passportauth.initialize);
+app.use(passportauth.session);
+app.use(passportauth.setuser);
+
+
+
 
 
 // Import and Set Nuxt.js options
@@ -20,7 +41,20 @@ app.use(rout);
 
 //Testing route at home
 app.get('/te', (req, res) => {
-  res.send('hello from rout');
+  //req.session.idw = "34";
+  console.log(req.session.passport.user);
+  res.send('hello from rout session is now = ' + req.session.passport.user);
+});
+
+app.get('/tes', (req, res) => {
+  console.log(req.session.idw)
+  res.send('finding setted session =>' + req.session.passport.user);
+});
+
+app.get('/lo', (req, res) => {
+  // res.send('finding setted session before logout=>' + req.session.passport.user);
+  req.logout();
+  res.send('finding session after logout =>' + req.session.passport.user);
 });
 
 //static url for images

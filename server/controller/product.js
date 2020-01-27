@@ -12,6 +12,7 @@ var methods = {
                 connection.release();
                 if (!err) {
                     res.json(rows);
+                    console.log(req.session.user);
                 }
             });
         });

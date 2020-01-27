@@ -1,6 +1,7 @@
 //starting & configuring express server
 const express = require('express');
 const app = express.Router();
+const passport = require('passport');
 const multer = require("multer"); //for single and multiple file upload
 const gm = require('gm').subClass({ imageMagick: true }); //for creating thumb or compressing image
 
@@ -28,6 +29,7 @@ const product = require("../controller/product.js");
 const settings = require("../controller/settings.js");
 const mail = require("../controller/mail");
 const pdf = require("../controller/pdf");
+const auth = require("../controller/login");
 
 
 /*========== testing routes ==========*/
@@ -59,6 +61,10 @@ app.post("/sendMail", mail.sendMail);
 /*========== For PDF ==========*/
 app.get('/pdf/:id', pdf.showPdf);
 
+app.post('/blogin', passport.authenticate('local', { session: true }), (req, res, next) => {
+    console.log(req.session.passport.user);
+    return next();
+}, auth.login);
 //sending file where ever the code is nidded in project mainly in index.js 
 module.exports = app;
 

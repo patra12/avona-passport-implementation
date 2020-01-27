@@ -39,14 +39,33 @@ export default {
   methods: {
     checkLogin() {
       this.alert = null;
-      var form = new FormData();
-      var staticEmail = "admin@admin.com";
-      var staticPassword = "admin123#";
-      if (this.email == staticEmail && this.password == staticPassword) {
-        this.$router.push("/admin/dashboard");
-      } else {
-        this.alert = { value: true, type: "error", message: "Invalid Login." };
-      }
+      // var form = new FormData();
+      // var staticEmail = "admin@admin.com";
+      // var staticPassword = "admin123#";
+      // if (this.email == staticEmail && this.password == staticPassword) {
+      //   this.$router.push("/admin/dashboard");
+      // } else {
+      //   this.alert = { value: true, type: "error", message: "Invalid Login." };
+      // }
+      try {
+        this.$axios({
+          method: "POST",
+          url: "/login",
+          headers: {
+            header: { "Content-Type": "application/x-www-form-urlencoded" }
+          },
+          data: {
+            email: this.email,
+            password: this.password
+          }
+        })
+          .then(row => {
+            console.log(row.data);
+          })
+          .catch(err => {
+            console.log(err.status);
+          });
+      } catch (err) {}
     }
   }
 };
