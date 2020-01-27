@@ -1,4 +1,5 @@
-# rex
+# Passport local single autnhenticaton is impplemented
+
 
 > My magnificent Nuxt.js project
 
